@@ -1,43 +1,25 @@
-import 'package:agendamentos/realizarAgendamento.dart';
 import 'package:flutter/material.dart';
 
-import 'main.dart';
-
-class Cadastro extends StatelessWidget {
+class Agendamento extends StatelessWidget {
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
-  TextEditingController nomeController = TextEditingController();
-  TextEditingController cpfController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController telefoneController = TextEditingController();
-  TextEditingController senhaController = TextEditingController();
-  TextEditingController confirmeSenhaController = TextEditingController();
+  TextEditingController forumController = TextEditingController();
+  TextEditingController servicoController = TextEditingController();
+  TextEditingController dataController = TextEditingController();
+  TextEditingController horarioController = TextEditingController();
 
   void _resetCampos() {
     _formKey.currentState.reset();
-    nomeController.clear();
-    cpfController.clear();
-    emailController.clear();
-    telefoneController.clear();
-    senhaController.clear();
-    confirmeSenhaController.clear();
+    forumController.clear();
+    servicoController.clear();
+    dataController.clear();
+    horarioController.clear();
   }
 
-  Cadastro();
+  Agendamento();
 
   @override
   Widget build(BuildContext context) {
-
-    void retornar() {
-      Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Home()));
-    }
-
-    void agendar() {
-      Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Agendamento()));
-    }
-
     return Scaffold(
       appBar: AppBar(backgroundColor: Colors.blue[900]),
       backgroundColor: Colors.white,
@@ -54,9 +36,9 @@ class Cadastro extends StatelessWidget {
                   height: 80,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 20.0, bottom: 10.0),
+                  padding: EdgeInsets.only(left: 10.0, bottom: 10.0),
                   child: Text(
-                    "Cadastro",
+                    "Realizar Agendamento",
                     style: TextStyle(
                       fontSize: 25.0,
                     ),
@@ -64,92 +46,66 @@ class Cadastro extends StatelessWidget {
                 ),
               ]),
               Padding(
-                padding: EdgeInsets.only(top: 5.0),
+                padding: EdgeInsets.only(top: 40.0, left: 10.0, right: 10.0),
                 child: TextFormField(
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                      labelText: "Nome",
+                      labelText: "Fórum",
+                      filled: true,
                       labelStyle: TextStyle(color: Colors.grey[800])),
                   textAlign: TextAlign.start,
                   style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
-                  controller: nomeController,
+                  controller: forumController,
                   validator: (value) {
-                    if (value.isEmpty) return "Insira seu nome!";
+                    if (value.isEmpty) return "Insira o fórum do agendamento!";
                   },
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 5.0),
+                padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: TextFormField(
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                      labelText: "CPF",
+                      labelText: "Serviço",
+                      filled: true,
                       labelStyle: TextStyle(color: Colors.grey[800])),
                   textAlign: TextAlign.start,
                   style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
-                  controller: cpfController,
+                  controller: servicoController,
                   validator: (value) {
-                    if (value.isEmpty) return "Insira seu CPF!";
+                    if (value.isEmpty) return "Insira o serviço do agendamento!";
                   },
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 5.0),
+                padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: TextFormField(
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.datetime,
                   decoration: InputDecoration(
-                      labelText: "E-mail",
+                      labelText: "Data",
+                      filled: true,
                       labelStyle: TextStyle(color: Colors.grey[800])),
                   textAlign: TextAlign.start,
                   style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
-                  controller: emailController,
+                  controller: dataController,
                   validator: (value) {
-                    if (value.isEmpty) return "Insira seu e-mail!";
+                    if (value.isEmpty) return "Insira a data do agendamento!";
                   },
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 5.0),
+                padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: TextFormField(
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.datetime,
                   decoration: InputDecoration(
-                      labelText: "Telefone",
+                      labelText: "Horário",
+                      filled: true,
                       labelStyle: TextStyle(color: Colors.grey[800])),
                   textAlign: TextAlign.start,
                   style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
-                  controller: telefoneController,
+                  controller: horarioController,
                   validator: (value) {
-                    if (value.isEmpty) return "Insira seu telefone!";
-                  },
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 5.0),
-                child: TextFormField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                      labelText: "Senha",
-                      labelStyle: TextStyle(color: Colors.grey[800])),
-                  textAlign: TextAlign.start,
-                  style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
-                  controller: senhaController,
-                  validator: (value) {
-                    if (value.isEmpty) return "Insira uma senha!";
-                  },
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 5.0),
-                child: TextFormField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                      labelText: "Confirmação de senha",
-                      labelStyle: TextStyle(color: Colors.grey[800])),
-                  textAlign: TextAlign.start,
-                  style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
-                  controller: confirmeSenhaController,
-                  validator: (value) {
-                    if (value.isEmpty) return "Confirme sua senha!";
+                    if (value.isEmpty) return "Insira o horário do agendamento!";
                   },
                 ),
               ),
@@ -163,8 +119,6 @@ class Cadastro extends StatelessWidget {
                       child: RaisedButton(
                         onPressed: () {
                           _resetCampos();
-                          //retornar();
-                          agendar();
                         },
                         child: Text(
                           "CANCELAR",
