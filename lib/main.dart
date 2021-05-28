@@ -40,32 +40,48 @@ class _HomeState extends State<Home> {
               Image.asset(
                 "imagens/logo-jf.png",
                 alignment: Alignment.center,
-                height: 160,
+                height: 120,
               ),
-              TextFormField(
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                    labelText: "Login",
-                    labelStyle: TextStyle(color: Colors.blue[900])),
-                textAlign: TextAlign.start,
-                style: TextStyle(color: Colors.grey[800], fontSize: 25.0),
-                controller: loginController,
-                validator: (value) {
-                  if (value.isEmpty) return "Insira seu login!";
-                },
+              Padding(
+                padding: EdgeInsets.only(top: 20.0),
+                child: Text(
+                  "Agendamentos",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 25.0,
+                  ),
+                ),
               ),
-              TextFormField(
-                obscureText: true,
-                // keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecoration(
-                    labelText: "Senha",
-                    labelStyle: TextStyle(color: Colors.blue[900])),
-                textAlign: TextAlign.start,
-                style: TextStyle(color: Colors.grey[800], fontSize: 25.0),
-                controller: senhaController,
-                validator: (value) {
-                  if (value.isEmpty) return "Insira sua senha!";
-                },
+              Padding(
+                padding: EdgeInsets.only(top: 20.0),
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                      labelText: "Login",
+                      labelStyle: TextStyle(color: Colors.blue[900])),
+                  textAlign: TextAlign.start,
+                  style: TextStyle(color: Colors.grey[800], fontSize: 18.0),
+                  controller: loginController,
+                  validator: (value) {
+                    if (value.isEmpty) return "Insira seu login!";
+                  },
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 10.0),
+                child: TextFormField(
+                  obscureText: true,
+                  // keyboardType: TextInputType.visiblePassword,
+                  decoration: InputDecoration(
+                      labelText: "Senha",
+                      labelStyle: TextStyle(color: Colors.blue[900])),
+                  textAlign: TextAlign.start,
+                  style: TextStyle(color: Colors.grey[800], fontSize: 18.0),
+                  controller: senhaController,
+                  validator: (value) {
+                    if (value.isEmpty) return "Insira sua senha!";
+                  },
+                ),
               ),
               Padding(
                 padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
@@ -79,7 +95,7 @@ class _HomeState extends State<Home> {
                       },
                       child: Text(
                         "ENTRAR",
-                        style: TextStyle(color: Colors.white, fontSize: 25.0),
+                        style: TextStyle(color: Colors.white, fontSize: 18.0),
                       ),
                       color: Colors.blue[900],
                     )),

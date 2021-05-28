@@ -25,6 +25,7 @@ class Cadastro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(backgroundColor: Colors.blue[900]),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 0.0),
@@ -38,90 +39,111 @@ class Cadastro extends StatelessWidget {
                   "imagens/logo-jf.png",
                   height: 80,
                 ),
-                Text(
-                  "Cadastro",
-                  style: TextStyle(
-                    fontSize: 25.0,
+                Padding(
+                  padding: EdgeInsets.only(left: 20.0, bottom: 10.0),
+                  child: Text(
+                    "Cadastro",
+                    style: TextStyle(
+                      fontSize: 25.0,
+                    ),
                   ),
                 ),
               ]),
-              TextFormField(
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                    labelText: "Nome",
-                    labelStyle: TextStyle(color: Colors.grey[800])),
-                textAlign: TextAlign.start,
-                style: TextStyle(color: Colors.grey[800], fontSize: 18.0),
-                controller: nomeController,
-                validator: (value) {
-                  if (value.isEmpty) return "Insira seu nome!";
-                },
+              Padding(
+                padding: EdgeInsets.only(top: 5.0),
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                      labelText: "Nome",
+                      labelStyle: TextStyle(color: Colors.grey[800])),
+                  textAlign: TextAlign.start,
+                  style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
+                  controller: nomeController,
+                  validator: (value) {
+                    if (value.isEmpty) return "Insira seu nome!";
+                  },
+                ),
               ),
-              TextFormField(
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                    labelText: "CPF",
-                    labelStyle: TextStyle(color: Colors.grey[800])),
-                textAlign: TextAlign.start,
-                style: TextStyle(color: Colors.grey[800], fontSize: 18.0),
-                controller: cpfController,
-                validator: (value) {
-                  if (value.isEmpty) return "Insira seu CPF!";
-                },
+              Padding(
+                padding: EdgeInsets.only(top: 5.0),
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                      labelText: "CPF",
+                      labelStyle: TextStyle(color: Colors.grey[800])),
+                  textAlign: TextAlign.start,
+                  style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
+                  controller: cpfController,
+                  validator: (value) {
+                    if (value.isEmpty) return "Insira seu CPF!";
+                  },
+                ),
               ),
-              TextFormField(
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                    labelText: "E-mail",
-                    labelStyle: TextStyle(color: Colors.grey[800])),
-                textAlign: TextAlign.start,
-                style: TextStyle(color: Colors.grey[800], fontSize: 18.0),
-                controller: emailController,
-                validator: (value) {
-                  if (value.isEmpty) return "Insira seu e-mail!";
-                },
+              Padding(
+                padding: EdgeInsets.only(top: 5.0),
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                      labelText: "E-mail",
+                      labelStyle: TextStyle(color: Colors.grey[800])),
+                  textAlign: TextAlign.start,
+                  style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
+                  controller: emailController,
+                  validator: (value) {
+                    if (value.isEmpty) return "Insira seu e-mail!";
+                  },
+                ),
               ),
-              TextFormField(
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                    labelText: "Telefone",
-                    labelStyle: TextStyle(color: Colors.grey[800])),
-                textAlign: TextAlign.start,
-                style: TextStyle(color: Colors.grey[800], fontSize: 18.0),
-                controller: telefoneController,
-                validator: (value) {
-                  if (value.isEmpty) return "Insira seu telefone!";
-                },
+              Padding(
+                padding: EdgeInsets.only(top: 5.0),
+                child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                      labelText: "Telefone",
+                      labelStyle: TextStyle(color: Colors.grey[800])),
+                  textAlign: TextAlign.start,
+                  style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
+                  controller: telefoneController,
+                  validator: (value) {
+                    if (value.isEmpty) return "Insira seu telefone!";
+                  },
+                ),
               ),
-              TextFormField(
-                obscureText: true,
-                decoration: InputDecoration(
-                    labelText: "Senha",
-                    labelStyle: TextStyle(color: Colors.grey[800])),
-                textAlign: TextAlign.start,
-                style: TextStyle(color: Colors.grey[800], fontSize: 18.0),
-                controller: senhaController,
-                validator: (value) {
-                  if (value.isEmpty) return "Insira uma senha!";
-                },
+              Padding(
+                padding: EdgeInsets.only(top: 5.0),
+                child: TextFormField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                      labelText: "Senha",
+                      labelStyle: TextStyle(color: Colors.grey[800])),
+                  textAlign: TextAlign.start,
+                  style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
+                  controller: senhaController,
+                  validator: (value) {
+                    if (value.isEmpty) return "Insira uma senha!";
+                  },
+                ),
               ),
-              TextFormField(
-                obscureText: true,
-                decoration: InputDecoration(
-                    labelText: "Confirmação de senha",
-                    labelStyle: TextStyle(color: Colors.grey[800])),
-                textAlign: TextAlign.start,
-                style: TextStyle(color: Colors.grey[800], fontSize: 18.0),
-                controller: confirmeSenhaController,
-                validator: (value) {
-                  if (value.isEmpty) return "Confirme sua senha!";
-                },
+              Padding(
+                padding: EdgeInsets.only(top: 5.0),
+                child: TextFormField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                      labelText: "Confirmação de senha",
+                      labelStyle: TextStyle(color: Colors.grey[800])),
+                  textAlign: TextAlign.start,
+                  style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
+                  controller: confirmeSenhaController,
+                  validator: (value) {
+                    if (value.isEmpty) return "Confirme sua senha!";
+                  },
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(top: 50.0, right: 20.0),
+                    padding: EdgeInsets.only(top: 50.0, right: 10.0),
                     child: Container(
                       height: 40.0,
                       child: RaisedButton(
@@ -131,9 +153,9 @@ class Cadastro extends StatelessWidget {
                         child: Text(
                           "CANCELAR",
                           style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
+                            fontSize: 16.0,
+                            color: Colors.white,
+                          ),
                         ),
                         color: Colors.red,
                       ),
@@ -152,9 +174,9 @@ class Cadastro extends StatelessWidget {
                         child: Text(
                           "CADASTRAR",
                           style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
+                            fontSize: 16.0,
+                            color: Colors.white,
+                          ),
                         ),
                         color: Colors.blue[900],
                       ),
