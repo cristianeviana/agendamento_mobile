@@ -8,18 +8,10 @@ class Agendamento extends StatefulWidget {
 class _AgendamentoState extends State<Agendamento> {
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
-  TextEditingController forumController = TextEditingController();
-  TextEditingController servicoController = TextEditingController();
   TextEditingController dataController = TextEditingController();
   TextEditingController horarioController = TextEditingController();
-
-  void _resetCampos() {
-    _formKey.currentState.reset();
-    forumController.clear();
-    servicoController.clear();
-    dataController.clear();
-    horarioController.clear();
-  }
+  String dropdownValueForum;
+  String dropdownValueServico;
 
   @override
   Widget build(BuildContext context) {
@@ -49,48 +41,117 @@ class _AgendamentoState extends State<Agendamento> {
                 ),
               ]),
               Padding(
-                padding: EdgeInsets.only(top: 40.0, left: 10.0, right: 10.0),
-                child: TextFormField(
-                  keyboardType: TextInputType.text,
+                padding: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
+                child: Text (
+                  "Fórum",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.grey[800],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                child: DropdownButtonFormField<String> (
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  //value: dropdownValueForum,
+                  icon: const Icon(Icons.arrow_drop_down),
+                  iconSize: 32,
+                  elevation: 16,
                   decoration: InputDecoration(
-                      labelText: "Fórum",
+                      border: InputBorder.none,
+                      hintText: "Selecione o fórum",
                       filled: true,
-                      labelStyle: TextStyle(color: Colors.grey[800])),
-                  textAlign: TextAlign.start,
-                  style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
-                  controller: forumController,
+                      hintStyle: TextStyle(fontSize: 14.0),
+                      //labelText: "Fórum",
+                      //labelStyle: TextStyle(color: Colors.grey[800])
+                      ),
+                  style: TextStyle(color: Colors.grey[800], fontSize: 14.0),
+                  onChanged: (String newValue) {
+                    setState(() {
+                      dropdownValueForum = newValue;
+                    });
+                  },
+                  items: <String>['One', 'Two', 'Free', 'Four']
+                  .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
                   validator: (value) {
-                    if (value.isEmpty) return "Insira o fórum do agendamento!";
+                    if (value==null || value.isEmpty) return "Insira o fórum do agendamento!";
                   },
                 ),
               ),
               Padding(
                 padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
-                child: TextFormField(
-                  keyboardType: TextInputType.text,
+                child: Text (
+                  "Serviço",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.grey[800],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                child: DropdownButtonFormField<String> (
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  icon: const Icon(Icons.arrow_drop_down),
+                  iconSize: 32,
+                  elevation: 16,
                   decoration: InputDecoration(
-                      labelText: "Serviço",
+                      border: InputBorder.none,
+                      //labelText: "Serviço",
+                      hintText: "Selecione o serviço",
                       filled: true,
-                      labelStyle: TextStyle(color: Colors.grey[800])),
-                  textAlign: TextAlign.start,
-                  style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
-                  controller: servicoController,
+                      hintStyle: TextStyle(fontSize: 14.0),
+                      //labelStyle: TextStyle(color: Colors.grey[800])
+                      ),
+                  style: TextStyle(color: Colors.grey[800], fontSize: 14.0),
+                  onChanged: (String newValue) {
+                    setState(() {
+                      dropdownValueServico = newValue;
+                    });
+                  },
+                  items: <String>['One', 'Two', 'Free', 'Four']
+                  .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
                   validator: (value) {
-                    if (value.isEmpty)
-                      return "Insira o serviço do agendamento!";
+                    if (value==null || value.isEmpty) return "Insira o serviço do agendamento!";
                   },
                 ),
               ),
               Padding(
                 padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                child: Text (
+                  "Data",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.grey[800],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 10.0, right: 10.0),
                 child: TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   keyboardType: TextInputType.datetime,
                   decoration: InputDecoration(
-                      labelText: "Data",
+                      border: InputBorder.none,
+                      hintText: "dd/mm/aaaa",
+                      //labelText: "Data",
                       filled: true,
-                      labelStyle: TextStyle(color: Colors.grey[800])),
+                      hintStyle: TextStyle(fontSize: 14.0),
+                      //labelStyle: TextStyle(color: Colors.grey[800])
+                      ),
                   textAlign: TextAlign.start,
-                  style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
+                  style: TextStyle(color: Colors.grey[800], fontSize: 14.0),
                   controller: dataController,
                   validator: (value) {
                     if (value.isEmpty) return "Insira a data do agendamento!";
@@ -99,14 +160,29 @@ class _AgendamentoState extends State<Agendamento> {
               ),
               Padding(
                 padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                child: Text (
+                  "Horário",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.grey[800],
+                  ),
+                ),
+              ),              
+              Padding(
+                padding: EdgeInsets.only(left: 10.0, right: 10.0),
                 child: TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   keyboardType: TextInputType.datetime,
                   decoration: InputDecoration(
-                      labelText: "Horário",
+                      border: InputBorder.none,
+                      hintText: "HH:MM",
+                      //labelText: "Data",
                       filled: true,
-                      labelStyle: TextStyle(color: Colors.grey[800])),
+                      hintStyle: TextStyle(fontSize: 14.0),
+                      //labelStyle: TextStyle(color: Colors.grey[800])
+                      ),
                   textAlign: TextAlign.start,
-                  style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
+                  style: TextStyle(color: Colors.grey[800], fontSize: 14.0),
                   controller: horarioController,
                   validator: (value) {
                     if (value.isEmpty)
@@ -123,7 +199,7 @@ class _AgendamentoState extends State<Agendamento> {
                       height: 40.0,
                       child: RaisedButton(
                         onPressed: () {
-                          _resetCampos();
+                          _formKey.currentState.reset();
                         },
                         child: Text(
                           "CANCELAR",
