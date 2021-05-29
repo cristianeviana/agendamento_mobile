@@ -1,3 +1,4 @@
+import 'package:agendamentos/ui/meusAgendamentos.dart';
 import 'package:flutter/material.dart';
 import 'package:agendamentos/ui/cadastro.dart';
 
@@ -40,7 +41,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 20.0),
+                padding: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
                 child: TextFormField(
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
@@ -55,7 +56,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 10.0),
+                padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: TextFormField(
                   obscureText: true,
                   // keyboardType: TextInputType.visiblePassword,
@@ -71,14 +72,15 @@ class _HomeState extends State<Home> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                padding: EdgeInsets.all(10.0),
                 child: Container(
                     height: 50.0,
                     child: RaisedButton(
                       onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          // metodo
-                        }
+                        // if (_formKey.currentState.validate()) {
+                        // metodo
+                        agendamento();
+                        //}
                       },
                       child: Text(
                         "ENTRAR",
@@ -109,5 +111,10 @@ class _HomeState extends State<Home> {
   void cadastrar() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => Cadastro()));
+  }
+
+  void agendamento() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => MeusAgendamentos()));
   }
 }

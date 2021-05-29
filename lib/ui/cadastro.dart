@@ -17,15 +17,15 @@ class _CadastroState extends State<Cadastro> {
   TextEditingController senhaController = TextEditingController();
   TextEditingController confirmeSenhaController = TextEditingController();
 
-  void _resetCampos() {
-    _formKey.currentState.reset();
-    nomeController.clear();
-    cpfController.clear();
-    emailController.clear();
-    telefoneController.clear();
-    senhaController.clear();
-    confirmeSenhaController.clear();
-  }
+  // void _resetCampos() {
+  //   _formKey.currentState.reset();
+  //   nomeController.clear();
+  //   cpfController.clear();
+  //   emailController.clear();
+  //   telefoneController.clear();
+  //   senhaController.clear();
+  //   confirmeSenhaController.clear();
+  // }
 
   void retornar() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
@@ -64,7 +64,7 @@ class _CadastroState extends State<Cadastro> {
                 ),
               ]),
               Padding(
-                padding: EdgeInsets.only(top: 5.0),
+                padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: TextFormField(
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
@@ -73,13 +73,14 @@ class _CadastroState extends State<Cadastro> {
                   textAlign: TextAlign.start,
                   style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
                   controller: nomeController,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     if (value.isEmpty) return "Insira seu nome!";
                   },
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 5.0),
+                padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: TextFormField(
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
@@ -88,13 +89,14 @@ class _CadastroState extends State<Cadastro> {
                   textAlign: TextAlign.start,
                   style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
                   controller: cpfController,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     if (value.isEmpty) return "Insira seu CPF!";
                   },
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 5.0),
+                padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: TextFormField(
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
@@ -103,13 +105,14 @@ class _CadastroState extends State<Cadastro> {
                   textAlign: TextAlign.start,
                   style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
                   controller: emailController,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     if (value.isEmpty) return "Insira seu e-mail!";
                   },
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 5.0),
+                padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: TextFormField(
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
@@ -118,13 +121,14 @@ class _CadastroState extends State<Cadastro> {
                   textAlign: TextAlign.start,
                   style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
                   controller: telefoneController,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     if (value.isEmpty) return "Insira seu telefone!";
                   },
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 5.0),
+                padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: TextFormField(
                   obscureText: true,
                   decoration: InputDecoration(
@@ -133,13 +137,14 @@ class _CadastroState extends State<Cadastro> {
                   textAlign: TextAlign.start,
                   style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
                   controller: senhaController,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     if (value.isEmpty) return "Insira uma senha!";
                   },
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 5.0),
+                padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: TextFormField(
                   obscureText: true,
                   decoration: InputDecoration(
@@ -148,6 +153,7 @@ class _CadastroState extends State<Cadastro> {
                   textAlign: TextAlign.start,
                   style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
                   controller: confirmeSenhaController,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     if (value.isEmpty) return "Confirme sua senha!";
                   },
@@ -162,7 +168,7 @@ class _CadastroState extends State<Cadastro> {
                       height: 40.0,
                       child: RaisedButton(
                         onPressed: () {
-                          _resetCampos();
+                          //_resetCampos();
                           //retornar();
                           agendar();
                         },
