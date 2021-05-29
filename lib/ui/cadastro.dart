@@ -27,17 +27,17 @@ class _CadastroState extends State<Cadastro> {
     confirmeSenhaController.clear();
   }
 
+  void retornar() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+  }
+
+  void agendar() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => Agendamento()));
+  }
+
   @override
   Widget build(BuildContext context) {
-    void retornar() {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-    }
-
-    void agendar() {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Agendamento()));
-    }
-
     return Scaffold(
       appBar: AppBar(backgroundColor: Colors.blue[900]),
       backgroundColor: Colors.white,
