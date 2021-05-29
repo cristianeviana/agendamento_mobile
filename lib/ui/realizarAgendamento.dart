@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Agendamento extends StatelessWidget {
+class Agendamento extends StatefulWidget {
+  @override
+  _AgendamentoState createState() => _AgendamentoState();
+}
+
+class _AgendamentoState extends State<Agendamento> {
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   TextEditingController forumController = TextEditingController();
@@ -15,8 +20,6 @@ class Agendamento extends StatelessWidget {
     dataController.clear();
     horarioController.clear();
   }
-
-  Agendamento();
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +76,8 @@ class Agendamento extends StatelessWidget {
                   style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
                   controller: servicoController,
                   validator: (value) {
-                    if (value.isEmpty) return "Insira o serviço do agendamento!";
+                    if (value.isEmpty)
+                      return "Insira o serviço do agendamento!";
                   },
                 ),
               ),
@@ -105,7 +109,8 @@ class Agendamento extends StatelessWidget {
                   style: TextStyle(color: Colors.grey[800], fontSize: 16.0),
                   controller: horarioController,
                   validator: (value) {
-                    if (value.isEmpty) return "Insira o horário do agendamento!";
+                    if (value.isEmpty)
+                      return "Insira o horário do agendamento!";
                   },
                 ),
               ),

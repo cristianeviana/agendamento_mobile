@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
-class MeusAgendamentos extends StatelessWidget {
+class MeusAgendamentos extends StatefulWidget {
+  @override
+  _MeusAgendamentosState createState() => _MeusAgendamentosState();
+}
+
+class _MeusAgendamentosState extends State<MeusAgendamentos> {
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-
-
-  MeusAgendamentos();
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +37,7 @@ class MeusAgendamentos extends StatelessWidget {
               ]),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                ],
+                children: <Widget>[],
               ),
             ],
           ),

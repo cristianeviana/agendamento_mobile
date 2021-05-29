@@ -1,9 +1,13 @@
-import 'package:agendamentos/realizarAgendamento.dart';
+import 'package:agendamentos/ui/login.dart';
+import 'package:agendamentos/ui/realizarAgendamento.dart';
 import 'package:flutter/material.dart';
 
-import 'main.dart';
+class Cadastro extends StatefulWidget {
+  @override
+  _CadastroState createState() => _CadastroState();
+}
 
-class Cadastro extends StatelessWidget {
+class _CadastroState extends State<Cadastro> {
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   TextEditingController nomeController = TextEditingController();
@@ -23,19 +27,15 @@ class Cadastro extends StatelessWidget {
     confirmeSenhaController.clear();
   }
 
-  Cadastro();
-
   @override
   Widget build(BuildContext context) {
-
     void retornar() {
-      Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Home()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
     }
 
     void agendar() {
       Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Agendamento()));
+          context, MaterialPageRoute(builder: (context) => Agendamento()));
     }
 
     return Scaffold(
