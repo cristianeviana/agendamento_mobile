@@ -12,6 +12,7 @@ class _AgendamentoState extends State<Agendamento> {
   TextEditingController horarioController = TextEditingController();
   String dropdownValueForum;
   String dropdownValueServico;
+  String dropdownValueHorario;
 
   @override
   Widget build(BuildContext context) {
@@ -181,22 +182,45 @@ class _AgendamentoState extends State<Agendamento> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                child: TextFormField(
+                child: DropdownButtonFormField<String>(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  keyboardType: TextInputType.datetime,
+                  icon: const Icon(Icons.arrow_drop_down),
+                  iconSize: 32,
+                  elevation: 16,
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: "HH:MM",
-                    //labelText: "Data",
+                    //labelText: "Serviço",
+                    hintText: "Selecione o horário",
                     filled: true,
                     hintStyle: TextStyle(fontSize: 14.0),
                     //labelStyle: TextStyle(color: Colors.grey[800])
                   ),
-                  textAlign: TextAlign.start,
                   style: TextStyle(color: Colors.grey[800], fontSize: 14.0),
-                  controller: horarioController,
+                  onChanged: (String newValue) {
+                    setState(() {
+                      dropdownValueHorario = newValue;
+                    });
+                  },
+                  items: <String>[
+                    '07:00',
+                    '08:00',
+                    '09:00',
+                    '10:00',
+                    '11:00',
+                    '13:00',
+                    '14:00',
+                    '15:00',
+                    '16:00',
+                    '17:00',
+                    '18:00'
+                  ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
                   validator: (value) {
-                    if (value.isEmpty)
+                    if (value == null || value.isEmpty)
                       return "Insira o horário do agendamento!";
                   },
                 ),
