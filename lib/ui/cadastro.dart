@@ -254,6 +254,7 @@ class _CadastroState extends State<Cadastro> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue[900],
         title: Text('Cadastrar Usuário'),
       ),
       body: SingleChildScrollView(
