@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:agendamentos/ui/cadastro.dart';
 
 class Home extends StatefulWidget {
+  User user;
+
+  Home({this.user});
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -19,13 +23,6 @@ class _HomeState extends State<Home> {
   UserHelper helper = UserHelper();
   User _user;
   Future<User> _futureUser;
-
-  // Future<User> autenticar() async {
-  //   _user.name = loginController.text;
-  //   _user.email = senhaController.text;
-
-  //   return await helper.autenticar(_user);
-  // }
 
   autenticar() async {
     final login = loginController.text;
