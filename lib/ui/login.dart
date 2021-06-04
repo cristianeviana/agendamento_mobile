@@ -1,6 +1,6 @@
 import 'package:agendamentos/domain/user.dart';
+import 'package:agendamentos/helpers/api_response.dart';
 import 'package:agendamentos/helpers/user_helper.dart';
-import 'package:agendamentos/ui/login_api.dart';
 import 'package:agendamentos/ui/meusAgendamentos.dart';
 import 'package:flutter/material.dart';
 import 'package:agendamentos/ui/cadastro.dart';
@@ -21,6 +21,23 @@ class _HomeState extends State<Home> {
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   UserHelper helper = UserHelper();
+
+  autenticar() async {
+    final login = loginController.text;
+    final senha = senhaController.text;
+
+    print("Login: $login , Senha: $senha ");
+    ApiResponse response = await helper.autenticar(login, senha);
+    if (response.ok) {
+      print("Autenticado!");
+      agendamento();
+    } else {
+      setState(() {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Usuário ou senha inválido!')));
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,18 +111,7 @@ class _HomeState extends State<Home> {
                     child: RaisedButton(
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
-                          var email = loginController.text;
-                          var password = senhaController.text;
-
-                          var response = await LoginApi.login(email, password);
-
-                          if (response) {
-                            print(response);
-                            agendamento();
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text('Usuário ou senha inválido!')));
-                          }
+                          autenticar();
                         }
                       },
                       child: Text(
