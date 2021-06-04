@@ -19,15 +19,15 @@ class _MeusAgendamentosState extends State<MeusAgendamentos> {
     super.initState();
 
     //agendamentos = getAgendamentos();
-    getAgendamentos().then((data) {
-      for (Schedule item in data) {
-        list.add(item);
-      }
-    });
+    getAgendamentos();
   }
 
   Future<List<Schedule>> getAgendamentos() async {
-    return await helper.listaAgendamentos();
+    await helper.listaAgendamentos().then((data) {
+      for (Schedule item in data) {
+        setState(() {list.add(item);});
+      }
+    });
   }
 
   void agendar() {
@@ -64,10 +64,12 @@ DataSource _getCalendarDataSource(List<Schedule> eventos) {
   List<Appointment> appointments = <Appointment>[];
 
   for (Schedule item in eventos) {
+    var data = ((item.date).substring(0,10)).split("-");
+    
     appointments.add(Appointment(
-      startTime: DateTime.now(),
-      endTime: DateTime.now().add(Duration(hours: 1)),
-      isAllDay: true,
+      startTime: DateTime(int.parse(data[0]), int.parse(data[1]), int.parse(data[2]), item.hour),
+      endTime: DateTime(int.parse(data[0]), int.parse(data[1]), int.parse(data[2]), item.hour).add(Duration(hours: 1)),
+      //isAllDay: true,
       subject: item.services,
       color: Colors.blue,
       startTimeZone: '',
