@@ -1,6 +1,6 @@
 import 'package:agendamentos/domain/user.dart';
-import 'package:agendamentos/helpers/api_response.dart';
 import 'package:agendamentos/helpers/user_helper.dart';
+import 'package:agendamentos/ui/login_api.dart';
 import 'package:agendamentos/ui/meusAgendamentos.dart';
 import 'package:flutter/material.dart';
 import 'package:agendamentos/ui/cadastro.dart';
@@ -8,7 +8,7 @@ import 'package:agendamentos/ui/cadastro.dart';
 class Home extends StatefulWidget {
   User user;
 
-  Home({this.user});
+  Home();
 
   @override
   _HomeState createState() => _HomeState();
@@ -19,27 +19,8 @@ class _HomeState extends State<Home> {
   TextEditingController senhaController = TextEditingController();
 
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  String _msg = "";
+
   UserHelper helper = UserHelper();
-  User _user;
-  Future<User> _futureUser;
-
-  autenticar() async {
-    final login = loginController.text;
-    final senha = senhaController.text;
-
-    print("Login: $login , Senha: $senha ");
-    ApiResponse response = await helper.autenticar(login, senha);
-    if (response.ok) {
-      print("Autenticado!");
-      _msg = "Autenticação OK";
-      agendamento();
-    } else {
-      setState(() {
-        _msg = "Erro no Login";
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +54,8 @@ class _HomeState extends State<Home> {
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                       labelText: "Login",
-                      labelStyle: TextStyle(color: Colors.blue[900])),
+                      labelStyle: TextStyle(color: Colors.blue[900]),
+                      hintText: 'Digite o login'),
                   textAlign: TextAlign.start,
                   style: TextStyle(color: Colors.grey[800], fontSize: 18.0),
                   controller: loginController,
@@ -89,12 +71,19 @@ class _HomeState extends State<Home> {
                   // keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
                       labelText: "Senha",
-                      labelStyle: TextStyle(color: Colors.blue[900])),
+                      labelStyle: TextStyle(color: Colors.blue[900]),
+                      hintText: 'Digite a senha'),
                   textAlign: TextAlign.start,
                   style: TextStyle(color: Colors.grey[800], fontSize: 18.0),
                   controller: senhaController,
                   validator: (value) {
-                    if (value.isEmpty) return "Insira sua senha!";
+                    if (value == null || value.isEmpty) {
+                      return "Insira sua senha!";
+                    }
+                    if (value.length < 6) {
+                      return "A senha precisa ter mais de 6 caracteres";
+                    }
+                    return null;
                   },
                 ),
               ),
@@ -103,9 +92,20 @@ class _HomeState extends State<Home> {
                 child: Container(
                     height: 50.0,
                     child: RaisedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState.validate()) {
-                          autenticar();
+                          var email = loginController.text;
+                          var password = senhaController.text;
+
+                          var response = await LoginApi.login(email, password);
+
+                          if (response) {
+                            print(response);
+                            agendamento();
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text('Usuário ou senha inválido!')));
+                          }
                         }
                       },
                       child: Text(
@@ -115,14 +115,6 @@ class _HomeState extends State<Home> {
                       color: Colors.blue[900],
                     )),
               ),
-              Padding(
-                  padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
-                  child: Text(
-                    _msg,
-                    style: TextStyle(
-                      color: Colors.red,
-                    ),
-                  )),
               Padding(
                 padding: EdgeInsets.only(top: 60.0, bottom: 10.0),
                 child: Container(

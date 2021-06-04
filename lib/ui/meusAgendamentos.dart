@@ -18,6 +18,8 @@ class _MeusAgendamentosState extends State<MeusAgendamentos> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(backgroundColor: Colors.blue[900]),
+      backgroundColor: Colors.white,
       body: SfCalendar(
         view: CalendarView.month,
         monthViewSettings: MonthViewSettings(showAgenda: true),
