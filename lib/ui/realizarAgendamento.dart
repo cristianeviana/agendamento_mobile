@@ -1,5 +1,7 @@
 import 'package:agendamentos/domain/schedule.dart';
+import 'package:agendamentos/helpers/api_response.dart';
 import 'package:agendamentos/helpers/schedule_helper.dart';
+import 'package:agendamentos/ui/meusAgendamentos.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -40,14 +42,24 @@ class _AgendamentoState extends State<Agendamento> {
     }
   }
 
-  Future<Schedule> salvarSchedule() async {
+  salvarSchedule() async {
     _editedSchedule.forum = dropdownValueForum;
     _editedSchedule.services = dropdownValueServico;
     _editedSchedule.date =
         new DateFormat("dd/MM/yyyy").parse(dataController.text).toString();
     _editedSchedule.hour = dropdownValueHorario;
-    print(_editedSchedule.toString());
-    return await helper.salvar(_editedSchedule);
+
+    ApiResponse response = await helper.salvar(_editedSchedule);
+
+    if (response.ok) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MeusAgendamentos()));
+    } else {
+      setState(() {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Erro ao cadastrar agendamento!')));
+      });
+    }
   }
 
   @override

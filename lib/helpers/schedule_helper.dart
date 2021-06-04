@@ -1,4 +1,5 @@
 import 'package:agendamentos/domain/schedule.dart';
+import 'package:agendamentos/helpers/api_response.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -8,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 const postSchedule = "https://justask-api.herokuapp.com/schedule";
 
 class ScheduleHelper {
-  Future<Schedule> salvar(Schedule schedule) async {
+  Future<ApiResponse<Schedule>> salvar(Schedule schedule) async {
     var prefs = await SharedPreferences.getInstance();
     String token = (prefs.getString("token") ?? "");
     print("token: $token");
@@ -25,11 +26,13 @@ class ScheduleHelper {
         'hour': schedule.hour,
       }),
     );
-    print(response.body);
+    
     if (response.statusCode == 200) {
-      return Schedule.fromMap(jsonDecode(response.body));
+      final schedule = Schedule.fromMap(jsonDecode(response.body));
+
+      return ApiResponse.ok(schedule);
     } else {
-      throw Exception(response.body);
+      return ApiResponse.error("Erro ao realizar cadastro.");
     }
     //return json.decode(response.body);
   }
