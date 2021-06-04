@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 const register = "https://justask-api.herokuapp.com/register";
 const login = "https://justask-api.herokuapp.com/login";
 
@@ -41,8 +43,15 @@ class UserHelper {
       },
       body: jsonEncode(<String, String>{'email': email, 'password': senha}),
     );
+
+    var prefs = await SharedPreferences.getInstance();
+
     if (response.statusCode == 200) {
       final usuario = User.fromMap(jsonDecode(response.body));
+
+      Map mapResponse = json.decode(response.body);
+      prefs.setString("token", mapResponse["token"]);
+
       return ApiResponse.ok(usuario);
       //return User.fromMap(jsonDecode(response.body));
     } else {
