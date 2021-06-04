@@ -1,28 +1,24 @@
 class User {
-  // static final String userTable = "userTable";
-  // static final String idColumn = "idColumn";
-  // static final String nameColumn = "nameColumn";
-  // static final String phoneColumn = "phoneColumn";
-  // static final String emailColumn = "emailColumn";
-  // static final String cpfColumn = "cpfColumn";
-  // static final String passwordColumn = "passwordColumn";
-
-  //int id;
+  int id;
   String name;
   String email;
   String phone;
   String cpf;
   String password;
+  String password_confirmation;
+  String token;
 
   User();
 
   User.fromMap(Map map) {
-    // id = map[idColumn];
+    id = map[id];
     name = map[name];
     email = map[email];
     phone = map[phone];
     cpf = map[cpf];
     password = map[password];
+    password_confirmation = map[password_confirmation];
+    token = map[token];
   }
 
   Map toMap() {
@@ -32,6 +28,8 @@ class User {
       phone: phone,
       cpf: cpf,
       password: password,
+      password_confirmation: password_confirmation,
+      token: token
     };
 
     //if (id != null) map[idColumn] = id;

@@ -1,3 +1,6 @@
+import 'package:agendamentos/domain/user.dart';
+import 'package:agendamentos/helpers/api_response.dart';
+import 'package:agendamentos/helpers/user_helper.dart';
 import 'package:agendamentos/ui/meusAgendamentos.dart';
 import 'package:flutter/material.dart';
 import 'package:agendamentos/ui/cadastro.dart';
@@ -12,6 +15,34 @@ class _HomeState extends State<Home> {
   TextEditingController senhaController = TextEditingController();
 
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  String _msg = "";
+  UserHelper helper = UserHelper();
+  User _user;
+  Future<User> _futureUser;
+
+  // Future<User> autenticar() async {
+  //   _user.name = loginController.text;
+  //   _user.email = senhaController.text;
+
+  //   return await helper.autenticar(_user);
+  // }
+
+  autenticar() async {
+    final login = loginController.text;
+    final senha = senhaController.text;
+
+    print("Login: $login , Senha: $senha ");
+    ApiResponse response = await helper.autenticar(login, senha);
+    if (response.ok) {
+      print("Autenticado!");
+      _msg = "Autenticação OK";
+      agendamento();
+    } else {
+      setState(() {
+        _msg = "Erro no Login";
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +55,6 @@ class _HomeState extends State<Home> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              // Icon(Icons.person, size: 120, color: Colors.blue[900]),
               Image.asset(
                 "imagens/logo-jf.png",
                 alignment: Alignment.center,
@@ -77,10 +107,9 @@ class _HomeState extends State<Home> {
                     height: 50.0,
                     child: RaisedButton(
                       onPressed: () {
-                        // if (_formKey.currentState.validate()) {
-                        // metodo
-                        agendamento();
-                        //}
+                        if (_formKey.currentState.validate()) {
+                          autenticar();
+                        }
                       },
                       child: Text(
                         "ENTRAR",
@@ -89,6 +118,14 @@ class _HomeState extends State<Home> {
                       color: Colors.blue[900],
                     )),
               ),
+              Padding(
+                  padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                  child: Text(
+                    _msg,
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  )),
               Padding(
                 padding: EdgeInsets.only(top: 60.0, bottom: 10.0),
                 child: Container(

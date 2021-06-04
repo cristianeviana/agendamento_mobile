@@ -1,4 +1,5 @@
 import 'package:agendamentos/domain/user.dart';
+import 'package:agendamentos/helpers/api_response.dart';
 import 'package:agendamentos/helpers/user_helper.dart';
 import 'package:agendamentos/ui/login.dart';
 import 'package:agendamentos/ui/realizarAgendamento.dart';
@@ -18,7 +19,7 @@ class _CadastroState extends State<Cadastro> {
   UserHelper helper = UserHelper();
   User _editedUser;
   Future<User> _futureUser;
-
+  String _msg = "";
   TextEditingController nomeController = TextEditingController();
   TextEditingController cpfController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -51,13 +52,25 @@ class _CadastroState extends State<Cadastro> {
         context, MaterialPageRoute(builder: (context) => Agendamento()));
   }
 
-  Future<User> salvarUsuario() async {
+  salvarUsuario() async {
     _editedUser.name = nomeController.text;
     _editedUser.email = emailController.text;
     _editedUser.phone = telefoneController.text;
     _editedUser.cpf = cpfController.text;
     _editedUser.password = senhaController.text;
-    return await helper.salvar(_editedUser);
+
+    ApiResponse response = await helper.salvar(_editedUser);
+
+    if (response.ok) {
+      print("Autenticado!");
+      setState(() {
+        _msg = "Cadastro realizado com sucesso!";
+      });
+    } else {
+      setState(() {
+        _msg = "Erro ao cadastrar usuário";
+      });
+    }
   }
 
   Column buildColumn() {
@@ -227,26 +240,21 @@ class _CadastroState extends State<Cadastro> {
                       ),
                     ),
                   ),
+                  Padding(
+                      padding:
+                          EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                      child: Text(
+                        _msg,
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      )),
                 ],
               ),
             ],
           ),
         ),
       ],
-    );
-  }
-
-  FutureBuilder<User> buildFutureBuilder() {
-    return FutureBuilder<User>(
-      future: _futureUser,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Text('Usuário ${snapshot.data.name} cadastrado com sucesso!');
-        } else if (snapshot.hasError) {
-          return Text('${snapshot.error}');
-        }
-        return CircularProgressIndicator();
-      },
     );
   }
 
@@ -259,7 +267,7 @@ class _CadastroState extends State<Cadastro> {
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 0.0),
-        child: (_futureUser == null) ? buildColumn() : buildFutureBuilder(),
+        child: buildColumn(),
       ),
     );
   }

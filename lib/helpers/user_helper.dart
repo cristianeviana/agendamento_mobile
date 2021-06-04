@@ -1,13 +1,14 @@
 import 'package:agendamentos/domain/user.dart';
-import 'package:path/path.dart';
+import 'package:agendamentos/helpers/api_response.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
 const register = "https://justask-api.herokuapp.com/register";
+const login = "https://justask-api.herokuapp.com/login";
 
 class UserHelper {
-  Future<User> salvar(User user) async {
+  Future<ApiResponse<User>> salvar(User user) async {
     http.Response response = await http.post(
       Uri.parse(register),
       headers: <String, String>{
@@ -19,15 +20,33 @@ class UserHelper {
         'phone': user.phone,
         'cpf': user.cpf,
         'password': user.password,
-        'password_confirmation': user.password
+        'password_confirmation': user.password_confirmation
       }),
     );
     print(response.body);
     if (response.statusCode == 201) {
-      return User.fromMap(jsonDecode(response.body));
+      final usuario = User.fromMap(jsonDecode(response.body));
+      return ApiResponse.ok(usuario);
     } else {
-      throw Exception('Falha ao criar usuário.');
+      return ApiResponse.error('Falha ao criar usuário.');
     }
     //return json.decode(response.body);
+  }
+
+  Future<ApiResponse<User>> autenticar(String email, String senha) async {
+    http.Response response = await http.post(
+      Uri.parse(login),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{'email': email, 'password': senha}),
+    );
+    if (response.statusCode == 200) {
+      final usuario = User.fromMap(jsonDecode(response.body));
+      return ApiResponse.ok(usuario);
+      //return User.fromMap(jsonDecode(response.body));
+    } else {
+      return ApiResponse.error("Erro ao fazer o login");
+    }
   }
 }
