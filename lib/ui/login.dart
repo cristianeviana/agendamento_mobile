@@ -1,3 +1,4 @@
+import 'package:agendamentos/ui/login_api.dart';
 import 'package:agendamentos/ui/meusAgendamentos.dart';
 import 'package:flutter/material.dart';
 import 'package:agendamentos/ui/cadastro.dart';
@@ -46,7 +47,8 @@ class _HomeState extends State<Home> {
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                       labelText: "Login",
-                      labelStyle: TextStyle(color: Colors.blue[900])),
+                      labelStyle: TextStyle(color: Colors.blue[900]),
+                      hintText: 'Digite o login'),
                   textAlign: TextAlign.start,
                   style: TextStyle(color: Colors.grey[800], fontSize: 18.0),
                   controller: loginController,
@@ -62,12 +64,19 @@ class _HomeState extends State<Home> {
                   // keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
                       labelText: "Senha",
-                      labelStyle: TextStyle(color: Colors.blue[900])),
+                      labelStyle: TextStyle(color: Colors.blue[900]),
+                      hintText: 'Digite a senha'),
                   textAlign: TextAlign.start,
                   style: TextStyle(color: Colors.grey[800], fontSize: 18.0),
                   controller: senhaController,
                   validator: (value) {
-                    if (value.isEmpty) return "Insira sua senha!";
+                    if (value == null || value.isEmpty) {
+                      return "Insira sua senha!";
+                    }
+                    if (value.length < 6) {
+                      return "A senha precisa ter mais de 6 caracteres";
+                    }
+                    return null;
                   },
                 ),
               ),
@@ -76,11 +85,23 @@ class _HomeState extends State<Home> {
                 child: Container(
                     height: 50.0,
                     child: RaisedButton(
-                      onPressed: () {
-                        // if (_formKey.currentState.validate()) {
-                        // metodo
-                        agendamento();
-                        //}
+                      onPressed: () async {
+                        if (_formKey.currentState.validate()) {
+                          // metodo
+                          var email = loginController.text;
+                          var password = senhaController.text;
+
+                          var response = await LoginApi.login(email, password);
+
+                          if (response) {
+                            print(response);
+                            agendamento();
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text('Usuário ou senha inválido!')));
+                          }
+                          //}
+                        }
                       },
                       child: Text(
                         "ENTRAR",

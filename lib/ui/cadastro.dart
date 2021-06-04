@@ -1,14 +1,23 @@
+import 'package:agendamentos/domain/user.dart';
+import 'package:agendamentos/helpers/user_helper.dart';
 import 'package:agendamentos/ui/login.dart';
 import 'package:agendamentos/ui/realizarAgendamento.dart';
 import 'package:flutter/material.dart';
 
 class Cadastro extends StatefulWidget {
+  User user;
+
+  Cadastro({this.user});
+
   @override
   _CadastroState createState() => _CadastroState();
 }
 
 class _CadastroState extends State<Cadastro> {
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  UserHelper helper = UserHelper();
+  User _editedUser;
+  Future<User> _futureUser;
 
   TextEditingController nomeController = TextEditingController();
   TextEditingController cpfController = TextEditingController();
@@ -17,15 +26,21 @@ class _CadastroState extends State<Cadastro> {
   TextEditingController senhaController = TextEditingController();
   TextEditingController confirmeSenhaController = TextEditingController();
 
-  // void _resetCampos() {
-  //   _formKey.currentState.reset();
-  //   nomeController.clear();
-  //   cpfController.clear();
-  //   emailController.clear();
-  //   telefoneController.clear();
-  //   senhaController.clear();
-  //   confirmeSenhaController.clear();
-  // }
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.user == null)
+      _editedUser = User();
+    else {
+      _editedUser = User.fromMap(widget.user.toMap());
+      nomeController.text = _editedUser.name;
+      emailController.text = _editedUser.email;
+      telefoneController.text = _editedUser.phone;
+      cpfController.text = _editedUser.cpf;
+      senhaController.text = _editedUser.password;
+    }
+  }
 
   void retornar() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
@@ -36,14 +51,20 @@ class _CadastroState extends State<Cadastro> {
         context, MaterialPageRoute(builder: (context) => Agendamento()));
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.blue[900]),
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 0.0),
-        child: Form(
+  Future<User> salvarUsuario() async {
+    _editedUser.name = nomeController.text;
+    _editedUser.email = emailController.text;
+    _editedUser.phone = telefoneController.text;
+    _editedUser.cpf = cpfController.text;
+    _editedUser.password = senhaController.text;
+    return await helper.salvar(_editedUser);
+  }
+
+  Column buildColumn() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -82,7 +103,7 @@ class _CadastroState extends State<Cadastro> {
               Padding(
                 padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: TextFormField(
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                       labelText: "CPF",
                       labelStyle: TextStyle(color: Colors.grey[800])),
@@ -98,7 +119,7 @@ class _CadastroState extends State<Cadastro> {
               Padding(
                 padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: TextFormField(
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                       labelText: "E-mail",
                       labelStyle: TextStyle(color: Colors.grey[800])),
@@ -114,7 +135,7 @@ class _CadastroState extends State<Cadastro> {
               Padding(
                 padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: TextFormField(
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
                       labelText: "Telefone",
                       labelStyle: TextStyle(color: Colors.grey[800])),
@@ -190,7 +211,9 @@ class _CadastroState extends State<Cadastro> {
                       child: RaisedButton(
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
-                            // metodo
+                            setState(() {
+                              _futureUser = salvarUsuario();
+                            });
                           }
                         },
                         child: Text(
@@ -209,6 +232,33 @@ class _CadastroState extends State<Cadastro> {
             ],
           ),
         ),
+      ],
+    );
+  }
+
+  FutureBuilder<User> buildFutureBuilder() {
+    return FutureBuilder<User>(
+      future: _futureUser,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Text('Usuário ${snapshot.data.name} cadastrado com sucesso!');
+        } else if (snapshot.hasError) {
+          return Text('${snapshot.error}');
+        }
+        return CircularProgressIndicator();
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Cadastrar Usuário'),
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 0.0),
+        child: (_futureUser == null) ? buildColumn() : buildFutureBuilder(),
       ),
     );
   }
