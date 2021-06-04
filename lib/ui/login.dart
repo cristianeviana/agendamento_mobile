@@ -1,8 +1,15 @@
+import 'package:agendamentos/domain/user.dart';
+import 'package:agendamentos/helpers/user_helper.dart';
+import 'package:agendamentos/ui/login_api.dart';
 import 'package:agendamentos/ui/meusAgendamentos.dart';
 import 'package:flutter/material.dart';
 import 'package:agendamentos/ui/cadastro.dart';
 
 class Home extends StatefulWidget {
+  User user;
+
+  Home();
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -12,6 +19,8 @@ class _HomeState extends State<Home> {
   TextEditingController senhaController = TextEditingController();
 
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
+  UserHelper helper = UserHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +33,6 @@ class _HomeState extends State<Home> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              // Icon(Icons.person, size: 120, color: Colors.blue[900]),
               Image.asset(
                 "imagens/logo-jf.png",
                 alignment: Alignment.center,
@@ -46,7 +54,8 @@ class _HomeState extends State<Home> {
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                       labelText: "Login",
-                      labelStyle: TextStyle(color: Colors.blue[900])),
+                      labelStyle: TextStyle(color: Colors.blue[900]),
+                      hintText: 'Digite o login'),
                   textAlign: TextAlign.start,
                   style: TextStyle(color: Colors.grey[800], fontSize: 18.0),
                   controller: loginController,
@@ -62,12 +71,19 @@ class _HomeState extends State<Home> {
                   // keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
                       labelText: "Senha",
-                      labelStyle: TextStyle(color: Colors.blue[900])),
+                      labelStyle: TextStyle(color: Colors.blue[900]),
+                      hintText: 'Digite a senha'),
                   textAlign: TextAlign.start,
                   style: TextStyle(color: Colors.grey[800], fontSize: 18.0),
                   controller: senhaController,
                   validator: (value) {
-                    if (value.isEmpty) return "Insira sua senha!";
+                    if (value == null || value.isEmpty) {
+                      return "Insira sua senha!";
+                    }
+                    if (value.length < 6) {
+                      return "A senha precisa ter mais de 6 caracteres";
+                    }
+                    return null;
                   },
                 ),
               ),
@@ -76,11 +92,21 @@ class _HomeState extends State<Home> {
                 child: Container(
                     height: 50.0,
                     child: RaisedButton(
-                      onPressed: () {
-                        // if (_formKey.currentState.validate()) {
-                        // metodo
-                        agendamento();
-                        //}
+                      onPressed: () async {
+                        if (_formKey.currentState.validate()) {
+                          var email = loginController.text;
+                          var password = senhaController.text;
+
+                          var response = await LoginApi.login(email, password);
+
+                          if (response) {
+                            print(response);
+                            agendamento();
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text('Usuário ou senha inválido!')));
+                          }
+                        }
                       },
                       child: Text(
                         "ENTRAR",
